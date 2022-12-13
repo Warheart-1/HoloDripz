@@ -54,6 +54,15 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Cart::class)]
     private Collection $cart;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?SubCategory $subCategory = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $sold = null;
+
     public function __construct()
     {
         $this->isFavorite = new ArrayCollection();
@@ -269,6 +278,42 @@ class Product
                 $cart->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSubCategory(): ?SubCategory
+    {
+        return $this->subCategory;
+    }
+
+    public function setSubCategory(?SubCategory $subCategory): self
+    {
+        $this->subCategory = $subCategory;
+
+        return $this;
+    }
+
+    public function getSold(): ?int
+    {
+        return $this->sold;
+    }
+
+    public function setSold(?int $sold): self
+    {
+        $this->sold = $sold;
 
         return $this;
     }
