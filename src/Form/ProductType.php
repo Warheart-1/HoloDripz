@@ -55,6 +55,7 @@ class ProductType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Enter product image',
                     'id' => 'product_image',
@@ -97,9 +98,9 @@ class ProductType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'choices' => [
-                    'Active' => 'active',
-                    'Inactive' => 'inactive',
-                    'Sold' => 'sold',
+                    'Active' => 0,
+                    'Inactive' => 1,
+                    'Sold' => 3,
                 ],
             ])
         ;

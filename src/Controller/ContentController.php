@@ -6,7 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
+use App\Entity\Category;
 use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 
 class ContentController extends AbstractController
 {
@@ -34,4 +36,21 @@ class ContentController extends AbstractController
             'product' => $product,
         ]);
     }
+
+    #[Route('/category', name: 'app_category_index', methods: ['GET'])]
+    public function showAllCategory(CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('content/category/index.html.twig', [
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/category/{id}', name: 'app_category_show', methods: ['GET'])]
+    public function showCategory(Category $category): Response
+    {
+        return $this->render('content/category/show.html.twig', [
+            'category' => $category,
+        ]);
+    }
+
 }

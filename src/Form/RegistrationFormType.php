@@ -10,13 +10,37 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+            ->add('Name', TextType::class, [
+                'label' => 'First Name',
+                'attr' => [
+                    'placeholder' => 'Enter your first name',
+                    'id' => 'first_name',
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Last Name',
+                'attr' => [
+                    'placeholder' => 'Enter your last name',
+                    'id' => 'last_name',
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('email', TextType::class, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Enter your email',
+                    'id' => 'email',
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

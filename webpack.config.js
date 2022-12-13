@@ -21,7 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('main', './assets/main.ts')
+    .addEntry('main', './assets/*.ts')
     .enablePostCssLoader()
     .enableTypeScriptLoader()
     .enableForkedTypeScriptTypesChecking()

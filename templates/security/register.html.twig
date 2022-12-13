@@ -15,3 +15,7 @@
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('./build/main.js') }}"></script>
+{% endblock %}
