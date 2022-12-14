@@ -1,20 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContentController!{% endblock %}
+{% block title %}✨ HoloDripzz ✨{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <nav class=" m-auto bg-white border-b-gray-400 border w-screen h-24 p-auto fixed">
+        <section>
+            <ul class=" flex flex-row content-end justify-end mr-2">
+                <li class=" mt-4">
+                    <a href=""><i class="fa-regular fa-user mr-5"></i></a>
+                    <a href=""><i class="fa-solid fa-cart-shopping mr-5"></i></a>
+                    <a href=""><i class="fa-solid fa-magnifying-glass mr-5"></i></a>
+                </li>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            </ul>
+        </section>
+        <section>
+            <ul class=" flex flex-row justify-center mt-auto">
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="{{ path('app_home') }}">Home</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="{{ path('app_index_product') }}">Shop</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Omocat product</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">About</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Contact</a></li>
+            </ul>
+        </section>
+    </nav>
+    <section>  
+        <div class="flex items-center justify-center h-screen bg-cover bg-no-repeat bg-fixed bg-center bg-[url('https://hololive.hololivepro.com/wp-content/uploads/2022/07/0_holocouncil_release_1.jpg')]" >
+            <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl">
+                <h1 class="text-5xl text-white justify-center"><a class=" cursor-pointer">HoloDripzz</a></h1>
+            </div>
+        </div>
+    </section>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/axelselebran/Documents/IPSSI-Project/HoloDripzzz-Ecommerce-IPSSI/HoloDripz/src/Controller/ContentController.php'|file_link(0) }}">src/Controller/ContentController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/axelselebran/Documents/IPSSI-Project/HoloDripzzz-Ecommerce-IPSSI/HoloDripz/templates/content/index.html.twig'|file_link(0) }}">templates/content/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <section>
+        <div class=" flex items-center justify-center h-screen bg-fixed bg-center bg-[url('https://www.otaquest.com/wp-content/uploads/2018/09/hero.1_3pgra1iuret1kbd1nm3yc-1024x576.jpg')]">
+            <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl" >
+                <h1 class="text-5xl text-white justify-center"><a class=" cursor-pointer">Featured Products</a></h1>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class=" flex items-center justify-center h-screen bg-fixed bg-center bg-[url('https://cdn.shopify.com/s/files/1/0330/1705/files/E2D8Z0dVgAAVFTh-1.jpg?v=1638159799x')]">
+            <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl" >
+                <h1 class="text-5xl text-white justify-center"><a class=" cursor-pointer">New Products</a></h1>
+            </div>
+        </div>
+    </section>
+
+    <section class=" flex flex-row justify-center items-center m-auto">
+        <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl w-1/4" >
+            <h1 class="text-5xl text-white justify-center text-center"><a class=" cursor-pointer">Top Seller</a></h1>
+        </div>
+    <section>
+    <section class="grid grid-cols-3 mt-4 content-center gap-2">
+        {% for product in products %}
+        <article>
+            <div class=" p-24 w-auto h-auto">
+                <div>
+                    <h1>{{ product.name }}</h1>
+                    <p>{{ product.price }}</p>
+                </div>
+        </article>
+        {% endfor %}
 {% endblock %}

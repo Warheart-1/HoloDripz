@@ -7,17 +7,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\SubCategory;
+use App\Entity\CartProducts;
+use App\Repository\CartProductsRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\SubCategoryRepository;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class ContentController extends AbstractController
 {
 
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(ProductRepository $productRepository): Response
     {
+        //dd($productRepository->findAll());
         return $this->render('content/index.html.twig', [
-            'controller_name' => 'ContentController',
+            'products' => $productRepository->findAll(),
         ]);
     }
 
@@ -29,9 +36,24 @@ class ContentController extends AbstractController
         ]);
     }
     
-    #[Route('product/{id}', name: 'app_product_show', methods: ['GET'])]
-    public function showProduct(Product $product): Response
+    #[Route('/product/{id}', name: 'app_product_show', methods: ['GET'])]
+    public function showProduct(Request $request, Product $product, CartProductsRepository $cartProductsRepository): Response
     {
+        /** @var User $user **/
+        $user = $this->getUser();
+        $cart = $user->getCart();
+
+        $cartProduct = new CartProducts();
+
+        $form = $this->createForm(CartProductType::class, $cartProduct);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $cartProduct->setCart($cart);
+            $cartProduct->setProduct($product);
+            $cartProduct->setQuantity($form->get('quantity')->getData());
+            
+            $cartProductsRepository->save($cartProduct, true);
+        }
         return $this->render('content/product/show.html.twig', [
             'product' => $product,
         ]);
@@ -53,4 +75,20 @@ class ContentController extends AbstractController
         ]);
     }
 
+
+    #[Route('/subcategory', name: 'app_sub_category_index', methods: ['GET'])]
+    public function showAllSubCategory(SubCategoryRepository $subCategoryRepository): Response
+    {
+        return $this->render('content/sub_category/index.html.twig', [
+            'sub_categories' => $subCategoryRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/subcategory/{id}', name: 'app_sub_category_show', methods: ['GET'])]
+    public function show(SubCategory $subCategory): Response
+    {
+        return $this->render('content/sub_category/show.html.twig', [
+            'sub_category' => $subCategory,
+        ]);
+    }
 }
