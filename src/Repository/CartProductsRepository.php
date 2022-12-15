@@ -39,20 +39,22 @@ class CartProductsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return CartProducts[] Returns an array of CartProducts objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    
+
+    /**
+    * @return CartProducts Returns an array of CartProducts objects
+    */
+    public function findByIdProduct($value): CartProducts
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getOneOrNullResult()
+       ;
+    }
 
 //    public function findOneBySomeField($value): ?CartProducts
 //    {

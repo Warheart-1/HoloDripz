@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\SubCategory;
+use App\Entity\User;
 use App\Entity\CartProducts;
 use App\Form\CategoryType;
 use App\Form\ProductType;
@@ -16,10 +17,18 @@ use App\Repository\CartProductsRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SubCategoryRepository;
+use Stripe\StripeClient;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ActionController extends AbstractController
 {
+    public function __construct(protected UserPasswordHasherInterface $passwordHasher, protected ManagerRegistry $registry)
+    {
+    
+    }
     #[Route('product/create', name: 'app_create_product', methods: ['GET', 'POST'])]
     public function createProduct(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository, SubCategoryRepository $subCategoryRepository): Response
     {
@@ -167,4 +176,16 @@ class ActionController extends AbstractController
         return $this->redirectToRoute('app_sub_category_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/product/checkout/{id}', name: 'app_checkout', methods: ['GET'])]
+    public function checkout(User $user): Response
+    {
+        $currentUser = $this->getUser();
+        if($currentUser->getId() !== $user->getId()){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $stripe = new StripeClient($this->getParameter('stripe_sk'));
+        dd($stripe);
+        return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+    }
 }

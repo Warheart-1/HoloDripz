@@ -10,13 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/users')]
+#[Route('/profile')]
 class UsersController extends AbstractController
 {
     #[Route('/', name: 'app_users_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('users/index.html.twig', [
+        return $this->render('profile/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
@@ -40,31 +40,9 @@ class UsersController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_users_show', methods: ['GET'])]
-    public function show(User $user): Response
-    {
-        return $this->render('users/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
 
-    #[Route('/{id}/edit', name: 'app_users_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->save($user, true);
 
-            return $this->redirectToRoute('app_users_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('users/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
-    }
 
     #[Route('/{id}', name: 'app_users_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response

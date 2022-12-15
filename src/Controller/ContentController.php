@@ -86,14 +86,5 @@ class ContentController extends AbstractController
             'sub_category' => $subCategory,
         ]);
     }
-
-    #[Route('/profile', name: 'app_profile')]
-    public function profile(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        $user = $this->getUser();
-        return $this->render('profile/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
+   
 }

@@ -5,7 +5,7 @@
       "removeComments": true,
       "preserveConstEnums": true,
       "sourceMap": true,
-      "lib": ["es2015", "dom"],
+      "lib": ["ES2020", "dom"],
     },
     "exclude": [
       "node_modules"
