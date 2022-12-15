@@ -8,9 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\SubCategory;
+use App\Entity\CartProducts;
 use App\Form\CategoryType;
 use App\Form\ProductType;
 use App\Form\SubCategoryType;
+use App\Repository\CartProductsRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SubCategoryRepository;
@@ -69,7 +71,6 @@ class ActionController extends AbstractController
 
         return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
     }
-
 
     #[Route('category/create', name: 'app_create_category', methods: ['GET', 'POST'])]
     public function new(Request $request, CategoryRepository $categoryRepository): Response

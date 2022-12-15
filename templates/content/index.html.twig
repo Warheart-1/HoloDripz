@@ -25,8 +25,12 @@
         </section>
     </nav>
     <section>  
+
         <div class="flex items-center justify-center h-screen bg-cover bg-no-repeat bg-fixed bg-center bg-[url('https://hololive.hololivepro.com/wp-content/uploads/2022/07/0_holocouncil_release_1.jpg')]" >
-            <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl">
+            <div class=" group hidden" data-information="boxMessage">
+                ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+            </div>
+            <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl" data-information="showMoreInformation">
                 <h1 class="text-5xl text-white justify-center"><a class=" cursor-pointer">HoloDripzz</a></h1>
             </div>
         </div>
@@ -34,6 +38,9 @@
 
     <section>
         <div class=" flex items-center justify-center h-screen bg-fixed bg-center bg-[url('https://www.otaquest.com/wp-content/uploads/2018/09/hero.1_3pgra1iuret1kbd1nm3yc-1024x576.jpg')]">
+            <div class=" group hidden" data-information="boxMessage">
+                ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+            </div>
             <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl" >
                 <h1 class="text-5xl text-white justify-center"><a class=" cursor-pointer">Featured Products</a></h1>
             </div>
@@ -41,15 +48,19 @@
     </section>
 
     <section>
+
         <div class=" flex items-center justify-center h-screen bg-fixed bg-center bg-[url('https://cdn.shopify.com/s/files/1/0330/1705/files/E2D8Z0dVgAAVFTh-1.jpg?v=1638159799x')]">
-            <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl" >
+            <div class=" group hidden" data-information="boxMessage">
+                ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+            </div>
+            <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl" data-information="showMoreInformation">
                 <h1 class="text-5xl text-white justify-center"><a class=" cursor-pointer">New Products</a></h1>
             </div>
         </div>
     </section>
 
     <section class=" flex flex-row justify-center items-center m-auto">
-        <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl w-1/4" >
+        <div class=" p-5 bg-black bg-opacity-60 text-xl rounded-xl w-1/4" data-information="showMoreInformation" >
             <h1 class="text-5xl text-white justify-center text-center"><a class=" cursor-pointer">Top Seller</a></h1>
         </div>
     <section>
@@ -63,4 +74,9 @@
                 </div>
         </article>
         {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('./build/styling.js') }}"> </script>
 {% endblock %}

@@ -13,11 +13,17 @@ use App\Repository\CartProductsRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\SubCategoryRepository;
+use App\Form\CartProductType;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
 
 
 class ContentController extends AbstractController
 {
+    public function __construct(protected ManagerRegistry $registry)
+    {
+    }
 
     #[Route('/', name: 'app_home')]
     public function index(ProductRepository $productRepository): Response
@@ -41,19 +47,8 @@ class ContentController extends AbstractController
     {
         /** @var User $user **/
         $user = $this->getUser();
-        $cart = $user->getCart();
-
-        $cartProduct = new CartProducts();
-
-        $form = $this->createForm(CartProductType::class, $cartProduct);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $cartProduct->setCart($cart);
-            $cartProduct->setProduct($product);
-            $cartProduct->setQuantity($form->get('quantity')->getData());
-            
-            $cartProductsRepository->save($cartProduct, true);
-        }
+        
+        
         return $this->render('content/product/show.html.twig', [
             'product' => $product,
         ]);
@@ -89,6 +84,16 @@ class ContentController extends AbstractController
     {
         return $this->render('content/sub_category/show.html.twig', [
             'sub_category' => $subCategory,
+        ]);
+    }
+
+    #[Route('/profile', name: 'app_profile')]
+    public function profile(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        return $this->render('profile/show.html.twig', [
+            'user' => $user,
         ]);
     }
 }

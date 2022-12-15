@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('main', './assets/main.ts')
+    .addEntry('styling', './assets/styling/main.ts')
     .enablePostCssLoader()
     .enableTypeScriptLoader()
     .enableForkedTypeScriptTypesChecking()
