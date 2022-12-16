@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ActionController extends AbstractController
 {
@@ -176,16 +177,32 @@ class ActionController extends AbstractController
         return $this->redirectToRoute('app_sub_category_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/product/checkout/{id}', name: 'app_checkout', methods: ['GET'])]
-    public function checkout(User $user): Response
+    #[Route('/product/checkout', name: 'app_checkout', methods: ['GET'])]
+    public function checkout(){
+        return($this->render('content/product/checkout.html.twig'));
+    }
+
+    #[Route('/product/checkout/{id}', name: 'app_checkout_product', methods: ['POST'])]
+    public function checkoutProduct(User $user): Response
     {
         $currentUser = $this->getUser();
         if($currentUser->getId() !== $user->getId()){
             return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
         }
-
+        $cart = $user->getCart()->getCartProducts()->getValues();
         $stripe = new StripeClient($this->getParameter('stripe_sk'));
-        dd($stripe);
-        return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        $price = $cart[0]->getProduct()->getPrice();
+        $intent = $stripe->paymentIntents->create([
+            'amount' => $price * 100,
+            'currency' => 'eur',
+            'payment_method_types' => ['card'],
+        ]);
+        $output = [
+            'clientSecret' => $intent->client_secret,
+        ];
+        
+        return new JsonResponse($output);
+
+        //return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
     }
 }

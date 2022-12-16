@@ -23,6 +23,9 @@ class UserCrudController extends AbstractCrudController
         parent::updateEntity($entityManager, $entityInstance);
     }
 
+
+
+
     public function configureFields(string $pageName): iterable
     {
         return [

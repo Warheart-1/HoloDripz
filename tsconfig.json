@@ -11,7 +11,7 @@
       "node_modules"
     ],
     "include": [
-        "assets/*.ts",
-        "assets/**/*.ts",
+        "./assets/*.ts",
+        ".≈©/assets/**/*.ts",
       ],
   }
