@@ -30,6 +30,12 @@ class CartProductsController extends AbstractController
         /** @var User $user **/
         $user = $this->getUser();
         $cart = $user->getCart();
+        if($cart == null){
+            $cart = new Cart();
+            $cart->setUser($user);
+            $this->registry->getManager()->persist($cart);
+            $this->registry->getManager()->flush();
+        }
         $cp = $cart->getCartProducts()->toArray();
 
         if(empty($cp)){

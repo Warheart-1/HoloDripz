@@ -48,7 +48,7 @@ class Product
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorite')]
     private Collection $isFavorite;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: CartProducts::class)]
+    #[ORM\OneToMany(mappedBy: 'product', cascade:['persist','remove'], targetEntity: CartProducts::class)]
     private Collection $cartProducts;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Cart::class)]

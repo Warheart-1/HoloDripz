@@ -83,5 +83,15 @@ class Cart
         return $this;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->id;
+    }
+
    
 }
