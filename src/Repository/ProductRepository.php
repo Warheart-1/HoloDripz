@@ -48,6 +48,37 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function GetbyCategory($category): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.category = :val')
+            ->setParameter('val', $category)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function GetbySubCategory($subCategory): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.subCategory = :val')
+            ->setParameter('val', $subCategory)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function OrderedByMostRecent(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

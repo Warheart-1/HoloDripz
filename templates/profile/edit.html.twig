@@ -3,32 +3,7 @@
 {% block title %}Edit User{% endblock %}
 
 {% block body %}
-<nav class=" m-auto bg-white border-b-gray-400 border w-screen h-24 p-auto sticky">
-        <section>
-            <ul class=" flex flex-row content-end justify-end mr-2">
-                <li class=" mt-4">
-                {% if app.user %}
-                    <a href=""><i class="fa-regular fa-user mr-5"></i></a>
-                    <a href="{{ path('app_cart_products_show', {'id': app.user.id}) }}"><i class="fa-solid fa-cart-shopping mr-5"></i></a>
-                    <a href=""><i class="fa-solid fa-magnifying-glass mr-5"></i></a>
-                {% else %}
-                    <a href="{{ path('app_login') }}"><i class="fa-regular fa-user mr-5"></i></a>
-                    <a href="{{ path('app_login') }}"><i class="fa-solid fa-cart-shopping mr-5"></i></a>
-                    <a href="{{ path('app_login') }}"><i class="fa-solid fa-magnifying-glass mr-5"></i></a>
-                {% endif %}
-                </li>
-
-            </ul>
-        </section>
-        <section>
-            <ul class=" flex flex-row justify-center mt-auto">
-                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="{{ path('app_home') }}">Home</a></li>
-                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Omocat product</a></li>
-                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">About</a></li>
-                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Contact</a></li>
-            </ul>
-        </section>
-    </nav>
+ {{ include('navbar.html.twig') }}
 
     <div class=" flex flex-col align-middle items-center justify-center">
         {{form_start(form)}}

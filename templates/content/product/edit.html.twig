@@ -3,11 +3,69 @@
 {% block title %}Edit Product{% endblock %}
 
 {% block body %}
-    <h1>Edit Product</h1>
+   {{ include('navbar.html.twig') }}
+   <div class="flex flex-col align-middle items-center justify-center">
+        <h1 class="text-3xl">Edit Product</h1>
+        <div class=" flex flex-col">
 
-    {{ include('content/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_index_product') }}">back to list</a>
-
-    {{ include('content/product/_delete_form.html.twig') }}
+            {{ form_start(form) }}
+                <div class="flex flex-row">
+                    {{form_label(form.name)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.name, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}} 
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.excerpt)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.excerpt, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.description)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.description, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.price)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.price, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.quantity)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.quantity, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.category)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.category, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.subcategory)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.subcategory, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.status)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.status, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_label(form.image)}}
+                </div>
+                <div class="flex flex-row">
+                    {{form_widget(form.image, {'attr': {'class': 'form-control border border-sky-500 rounded-md'}})}}
+                </div>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+            {{ form_end(form) }}
+            <a href="{{ path('app_index_product') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">Back to list</a>
+        </div>
+    </div>
 {% endblock %}

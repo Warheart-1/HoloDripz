@@ -42,6 +42,15 @@ class ContentController extends AbstractController
         ]);
     }
 
+    #[Route('/product/recentProduct', name: 'app_product_recentproduct', methods: ['GET'])]
+    public function showProductMostRecent(ProductRepository $productRepository): Response
+    {
+        
+        return $this->render('content/product/index.html.twig', [
+            'products' => $productRepository->OrderedByMostRecent(),
+        ]);
+    }
+
     #[Route('/product/show/{userID}', name: 'app_show_product_user', methods: ['GET'])]
     public function showProductByUser(ProductRepository $productRepository, $userID): Response
     { 
@@ -57,6 +66,22 @@ class ContentController extends AbstractController
         $user = $this->getUser();
         return $this->render('content/product/show.html.twig', [
             'product' => $product,
+        ]);
+    }
+
+    #[Route('/product/category/{idCategory}', name: 'app_product__namecategory', methods: ['GET'])]
+    public function showProductByCategory(ProductRepository $productRepository, $idCategory): Response
+    {
+        return $this->render('content/product/index.html.twig', [
+            'products' => $productRepository->GetbyCategory($idCategory),
+        ]);
+    }
+
+    #[Route('/product/subcategory/{idSubCategory}', name: 'app_product__namesubcategory', methods: ['GET'])]
+    public function showProductBySubCategory(ProductRepository $productRepository, $idSubCategory): Response
+    {
+        return $this->render('content/product/index.html.twig', [
+            'products' => $productRepository->GetbySubCategory($idSubCategory),
         ]);
     }
 
