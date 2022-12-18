@@ -227,6 +227,40 @@ class ActionController extends AbstractController
         
         return new JsonResponse($output);
 
-        return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/product/checkout/success', name: 'app_checkout_success', methods: ['GET'])]
+    public function checkoutSuccess(): Response
+    {
+        $currentUser = $this->getUser();
+        if($currentUser == null){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+
+        if($currentUser->getCart() == null){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $data = $currentUser->getCart()->getCartProducts()->getValues();
+        foreach($data as $cartProduct){
+            $totalQuantity[] = $cartProduct->getQuantity();
+            $totalProducts[] = $cartProduct->getProduct();
+        }
+        for($i = 0; $i < count($totalProducts); $i++){
+            $totalProducts[$i]->setQuantity($totalProducts[$i]->getQuantity() - $totalQuantity[$i]);
+            $totalProducts[$i]->setSold($totalProducts[$i]->getSold() + $totalQuantity[$i]);
+        }
+        if(empty($totalQuantity)){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }  
+        if(empty($totalProducts)){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+        $currentUser->getCart()->setCartProductsToNull();
+        $this->registry->getManager()->persist($currentUser);
+        $this->registry->getManager()->flush();
+
+        return new JsonResponse(['success' => 'Payment is successful']);
+        
     }
 }

@@ -25,7 +25,10 @@
                                                 {% else %}
                                                     <p class=" text-3xl mb-3"><a href="{{ path('app_create_product') }}">Add your first product</a></p>
                                                 {% endif %}
-                                            <p class=" text-3xl mb-3"><a href="{{ path('app_home') }}">back to list</a></p>
+                                                {% if 'ROLE_ADMIN' in app.user.roles %}
+                                                    <p class=" text-3xl mb-3"><a href="{{ path('admin') }}">Admin part</a></p>
+                                                {% endif %}
+                                            <p class=" text-3xl mb-3"><a href="{{ path('app_home') }}">Back to list</a></p>
                                         </div>
                                     </div>
     </div>

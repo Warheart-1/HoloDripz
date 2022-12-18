@@ -71,6 +71,15 @@ class Cart
         return $this;
     }
 
+    public function setCartProductsToNull(): self
+    {
+        foreach ($this->cartProducts as $cartProduct) {
+            $cartProduct->setCart(null);
+        }
+
+        return $this;
+    }
+
     public function getProduct(): ?Product
     {
         return $this->product;
