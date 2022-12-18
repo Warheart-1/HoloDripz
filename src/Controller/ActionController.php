@@ -154,7 +154,6 @@ class ActionController extends AbstractController
     {
         $form = $this->createForm(SubCategoryType::class, $subCategory);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $subCategoryRepository->save($subCategory, true);
 
@@ -181,12 +180,19 @@ class ActionController extends AbstractController
     public function checkout(): Response
     {
         $currentUser = $this->getUser();
-        if($currentUser === null){
+        if($currentUser == null){
             return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
         }
+        if($currentUser->getCart() == null){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+
         $cart = $currentUser->getCart()->getCartProducts()->getValues();
         foreach($cart as $cartProduct){
             $totalProducts[] = $cartProduct->getProduct()->getPrice() * $cartProduct->getQuantity();
+        }
+        if(empty($totalProducts)){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
         }
         $subTotalToCheckout = array_sum($totalProducts);
 
@@ -202,6 +208,10 @@ class ActionController extends AbstractController
         if($currentUser->getId() !== $user->getId()){
             return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
         }
+        if($currentUser->getCart() == null){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+
         $data = json_decode($request->getContent());
         $finalAmountToPay = $data->items[0]->totalPrice;
         $stripe = new StripeClient($this->getParameter('stripe_sk'));

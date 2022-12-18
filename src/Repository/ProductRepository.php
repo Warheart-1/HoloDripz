@@ -39,6 +39,15 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function OrderedByMostSold(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.sold', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

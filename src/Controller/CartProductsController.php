@@ -123,7 +123,12 @@ class CartProductsController extends AbstractController
         foreach($cartProduct->getCart()->getCartProducts()->toArray() as $cartProduct){
             $TotalPrice[] = $cartProduct->getProduct()->getPrice() * $cartProduct->getQuantity();
         }
-        $quantity['subTotal'] = array_sum($TotalPrice);
+        if(empty($TotalPrice)){
+            $quantity['subTotal'] = 0; 
+        }
+        else {
+            $quantity['subTotal'] = array_sum($TotalPrice);
+        }
 
         return new JsonResponse([
             'message' => 'success',

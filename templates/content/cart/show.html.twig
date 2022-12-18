@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class=" text-gray-600 text-xl ml-16 mt-8">   
-    <h1>Cart</h1>
-</div>
+{% if cartProducts is empty %}
+    <div class=" text-gray-600 text-xl ml-16 mt-8">   
+        <h1>Your cart is empty</h1>
+    </div>
+{% else %}
+    <div class=" text-gray-600 text-xl ml-16 mt-8">   
+        <h1>Cart</h1>
+    </div>
+{% endif %}
+
+
 {% for cartProduct in cartProducts %}
 
 <div data-idProduct="{{ cartProduct.id }}" class=" grid ">
@@ -29,10 +37,12 @@
 <div class=" text-gray-600 text-xl ml-16 mt-8">   
     <h1 id="subtotal">SUBTOTAL : {{subTotal}} $</h1>
 </div>
+{% if cartProducts is not empty %}
+    <div class=" text-gray-600 text-xl ml-16 mt-8">   
+        <a href=" {{ path("app_checkout") }} ">Checkout</a>
+    </div>
+{% endif %}
 
-<div class=" text-gray-600 text-xl ml-16 mt-8">   
-    <a href=" {{ path("app_checkout") }} ">Checkout</a>
-</div>
 
 {% block javascript %}
 
@@ -79,6 +89,10 @@
                 console.log(quantity);
                 subtotal.innerHTML = "SUBTOTAL : " + quantity.subTotal + "$";
                 document.querySelector(`[data-idProduct="${quantity.id}"]`).remove();
+                if(quantity.subTotal === 0) {
+                    document.querySelector('h1').innerHTML = "Your cart is empty";
+                    document.querySelector('a').remove();
+                }
             });
         });
 

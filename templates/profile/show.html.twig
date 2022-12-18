@@ -3,64 +3,50 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+<nav class=" m-auto bg-white border-b-gray-400 border w-screen h-24 p-auto sticky">
+        <section>
+            <ul class=" flex flex-row content-end justify-end mr-2">
+                <li class=" mt-4">
+                {% if app.user %}
+                    <a href=""><i class="fa-regular fa-user mr-5"></i></a>
+                    <a href="{{ path('app_cart_products_show', {'id': app.user.id}) }}"><i class="fa-solid fa-cart-shopping mr-5"></i></a>
+                    <a href=""><i class="fa-solid fa-magnifying-glass mr-5"></i></a>
+                {% else %}
+                    <a href="{{ path('app_login') }}"><i class="fa-regular fa-user mr-5"></i></a>
+                    <a href="{{ path('app_login') }}"><i class="fa-solid fa-cart-shopping mr-5"></i></a>
+                    <a href="{{ path('app_login') }}"><i class="fa-solid fa-magnifying-glass mr-5"></i></a>
+                {% endif %}
+                </li>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ user.name }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>PhoneNumber</th>
-                <td>{{ user.phoneNumber }}</td>
-            </tr>
-            <tr>
-                <th>Country</th>
-                <td>{{ user.country }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ user.address }}</td>
-            </tr>
-            <tr>
-                <th>PostalCode</th>
-                <td>{{ user.postalCode }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+            </ul>
+        </section>
+        <section>
+            <ul class=" flex flex-row justify-center mt-auto">
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="{{ path('app_home') }}">Home</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Omocat product</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">About</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Contact</a></li>
+            </ul>
+        </section>
+    </nav>
+        <div class="flex justify-center">
+        <h1 class="text-5xl">User</h1>
+    </div>
+ <div class="flex ml-16 align-middle justify-center items-center mt-16" id="list">
+    <div id="listOfUser" class=" my-2 flex ">
+                                        <div class=" w-96 h-auto p-2 rounded-md ml-2 mr-2 mt-2 mb-2 shadow-xl shadow-stone text-center  ">
+                                            <p class=" text-3xl mb-3">{{user.name}} - {{user.lastname}} <i class="fa-solid fa-user"></i><br></p> 
+                                            <p class=" text-3xl mb-3">{{user.phoneNumber ? user.phoneNumber : "Not Specified"}} <i class="fa-solid fa-mobile-button"></i><br></p> 
+                                            <p class=" text-3xl mb-3">{{user.country ? user.country : "Not Specified" }} <i class="fa-solid fa-globe"></i><br></p> 
+                                            <p class=" text-3xl mb-3">{{user.address ? user.address : "Not Specified"}} <i class="fa-solid fa-map-marker"></i><br></p> 
+                                            <p class=" text-3xl mb-3">{{user.postalCode ? user.postalCode : "Not Specified"}} <i class="fa-solid fa-map-marker"></i><br></p> 
+                                            <p class=" text-3xl mb-3">{{user.email ? user.email : "Not Specified"}} <i class="fa-solid fa-envelope"></i><br></p> 
+                                            <p class=" text-3xl mb-3"><a href="{{ path('app_users_edit', {'id': user.id}) }}">edit</a></p>
+                                            <br>
+                                            <p class=" text-3xl mb-3"><a href="{{ path('app_home') }}">back to list</a></p>
+                                        </div>
+                                    </div>
+    </div>
 
-    <a href="{{ path('app_users_index') }}">back to list</a>
-
-    <a href="{{ path('app_users_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('profile/_delete_form.html.twig') }}
+   
 {% endblock %}

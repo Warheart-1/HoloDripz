@@ -17,13 +17,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\UserType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormTypeInterface;
 
 
 class UserController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager, ManagerRegistry $registry): Response
     {
         $user = new User();
 
@@ -81,9 +82,11 @@ class UserController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route('/profile/{id}', name: 'app_users_show', methods: ['GET'])]
-    public function show(User $user): Response
-    {
+    #[Route('/profile', name: 'app_users_show', methods: ['GET'])]
+    public function show(): Response
+    {   
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
         return $this->render('profile/show.html.twig', [
             'user' => $user,
         ]);
@@ -92,13 +95,17 @@ class UserController extends AbstractController
     #[Route('/profile/edit/{id}', name: 'app_users_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if($user->getId() !== $this->getUser()->getId()){
+            return $this->redirectToRoute('app_users_show');
+        }
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('app_users_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_users_show');
         }
 
         return $this->render('profile/edit.html.twig', [

@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
 
@@ -26,17 +27,12 @@ class UserType extends AbstractType
                     'placeholder' => 'Email',
                 ],
             ])
-            ->add('password', TextType::class, [
-                'label' => 'Password',
-                'attr' => [
-                    'placeholder' => 'Password',
-                ],
-            ])
             ->add('name', TextType::class, [
                 'label' => 'Name',
                 'attr' => [
                     'placeholder' => 'Name',
                 ],
+                
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Lastname',
@@ -44,29 +40,33 @@ class UserType extends AbstractType
                     'placeholder' => 'Lastname',
                 ],
             ])
-            ->add('phoneNumber', TextType::class, [
+            ->add('phoneNumber', IntegerType::class, [
                 'label' => 'Phone Number',
                 'attr' => [
                     'placeholder' => 'Phone Number',
                 ],
+                'required' => false,
             ])
             ->add('country', TextType::class, [
                 'label' => 'Country',
                 'attr' => [
                     'placeholder' => 'Country',
                 ],
+                'required' => false,
             ])
-            ->add('address', TextType::class, [
+            ->add('address', TextareaType::class, [
                 'label' => 'Address',
                 'attr' => [
                     'placeholder' => 'Address',
                 ],
+                'required' => false,
             ])
             ->add('postalCode', IntegerType::class, [
                 'label' => 'Postal Code',
                 'attr' => [
                     'placeholder' => 'Postal Code',
                 ],
+                'required' => false,
             ])
         ;
     }

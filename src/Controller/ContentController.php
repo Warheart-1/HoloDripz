@@ -30,7 +30,7 @@ class ContentController extends AbstractController
     {
         //dd($productRepository->findAll());
         return $this->render('content/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $productRepository->OrderedByMostSold(),
         ]);
     }
 
