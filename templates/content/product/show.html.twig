@@ -1,69 +1,70 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Product{% endblock %}
 
 {% block body %}
-    <h1>Product</h1>
+    <nav class=" m-auto bg-white border-b-gray-400 border w-screen h-24 p-auto sticky">
+        <section>
+            <ul class=" flex flex-row content-end justify-end mr-2">
+                <li class=" mt-4">
+                {% if app.user %}
+                    <a href=""><i class="fa-regular fa-user mr-5"></i></a>
+                    <a href="{{ path('app_cart_products_show', {'id': app.user.id}) }}"><i class="fa-solid fa-cart-shopping mr-5"></i></a>
+                    <a href=""><i class="fa-solid fa-magnifying-glass mr-5"></i></a>
+                {% else %}
+                    <a href="{{ path('app_login') }}"><i class="fa-regular fa-user mr-5"></i></a>
+                    <a href="{{ path('app_login') }}"><i class="fa-solid fa-cart-shopping mr-5"></i></a>
+                    <a href="{{ path('app_login') }}"><i class="fa-solid fa-magnifying-glass mr-5"></i></a>
+                {% endif %}
+                </li>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ product.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ product.name }}</td>
-            </tr>
-            <tr>
-                <th>Excerpt</th>
-                <td>{{ product.excerpt }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ product.description }}</td>
-            </tr>
-            <tr>
-                <th>Quantity</th>
-                <td>{{ product.quantity }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ product.image }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ product.price }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ product.status }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Sold</th>
-                <td>{{ product.sold }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_index_product') }}">back to list</a>
-
-    <a href="{{ path('app_update_product', {'id': product.id}) }}">edit</a>
-    <a href="{{ path('app_cart_products_add', {'id': product.id}) }}">add to cart</a>
-
-    {{ include('content/product/_delete_form.html.twig') }}
-
+            </ul>
+        </section>
+        <section>
+            <ul class=" flex flex-row justify-center mt-auto">
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="{{ path('app_home') }}">Home</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Omocat product</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">About</a></li>
+                <li class=" mr-5 hover:text-gray-400 duration-300 ease-in-out"><a href="">Contact</a></li>
+            </ul>
+        </section>
+    </nav>
+    <div class="flex flex-row justify-center">
+        <div class="flex flex-row justify-center">
+            <h1 class="text-3xl font-bold">Product</h1>
+        </div>
+    </div>
+    <div class="flex flex-row">
+        <div class="flex flex-row justify-center float-left mt-4 ml-32">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6sj18N6syLyC0Tj_fjV0f4Rw3FvbwxvBzGnDGjM6mFg-A5wtmuTyDO7V_znIXMkLhPR8&usqp=CAU" alt="product image" class=" w-72 h-96 cover">
+        </div>
+        <div class="flex flex-col justify-center ml-72">
+            <div class="flex flex-row justify-center">
+                <h1 class="text-3xl font-bold">{{ product.name }}</h1>
+            </div>
+            <div class="flex flex-row justify-center">
+                <p class="text-2xl font-bold">{{ product.price }} $</p>
+            </div>
+            <div class="flex flex-row justify-center">
+                <p class="text-2xl font-bold">{{ product.category.name }}</p>
+            </div> 
+            <div class="flex flex-row justify-center">
+                <p class="text-2xl font-bold">{{ product.description }}</p>
+            </div>
+            <div class="flex flex-row justify-center">
+                {{ include('content/product/_delete_form.html.twig') }}
+            </div>
+            <div class="flex flex-row justify-center">
+                <a href="{{ path('app_cart_products_add', {"id": product.id}) }}" class="btn btn-primary">Add to Cart</a>
+            </div>
+            <div class="flex flex-row justify-center">
+                <a href="{{ path('app_index_product') }}" class="btn btn-primary">back to list</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('./build/main.js') }}"></script>
+    
 {% endblock %}

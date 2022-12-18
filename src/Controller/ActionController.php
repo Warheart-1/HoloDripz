@@ -177,23 +177,37 @@ class ActionController extends AbstractController
         return $this->redirectToRoute('app_sub_category_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/product/checkout', name: 'app_checkout', methods: ['GET'])]
-    public function checkout(){
-        return($this->render('content/product/checkout.html.twig'));
+    #[Route('/product/checkout', name: 'app_checkout', methods: ['GET', 'POST'])]
+    public function checkout(): Response
+    {
+        $currentUser = $this->getUser();
+        if($currentUser === null){
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+        $cart = $currentUser->getCart()->getCartProducts()->getValues();
+        foreach($cart as $cartProduct){
+            $totalProducts[] = $cartProduct->getProduct()->getPrice() * $cartProduct->getQuantity();
+        }
+        $subTotalToCheckout = array_sum($totalProducts);
+
+        return($this->render('content/product/checkout.html.twig', [
+            'subTotalToCheckout' => $subTotalToCheckout,
+        ]));
     }
 
     #[Route('/product/checkout/{id}', name: 'app_checkout_product', methods: ['POST'])]
-    public function checkoutProduct(User $user): Response
+    public function checkoutProduct(User $user, Request $request): Response
     {
         $currentUser = $this->getUser();
         if($currentUser->getId() !== $user->getId()){
             return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
         }
-        $cart = $user->getCart()->getCartProducts()->getValues();
+        $data = json_decode($request->getContent());
+        $finalAmountToPay = $data->items[0]->totalPrice;
         $stripe = new StripeClient($this->getParameter('stripe_sk'));
-        $price = $cart[0]->getProduct()->getPrice();
+
         $intent = $stripe->paymentIntents->create([
-            'amount' => $price * 100,
+            'amount' => $finalAmountToPay * 100,
             'currency' => 'eur',
             'payment_method_types' => ['card'],
         ]);
@@ -203,6 +217,6 @@ class ActionController extends AbstractController
         
         return new JsonResponse($output);
 
-        //return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
     }
 }

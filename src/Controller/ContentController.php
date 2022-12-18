@@ -47,8 +47,6 @@ class ContentController extends AbstractController
     {
         /** @var User $user **/
         $user = $this->getUser();
-        
-        
         return $this->render('content/product/show.html.twig', [
             'product' => $product,
         ]);

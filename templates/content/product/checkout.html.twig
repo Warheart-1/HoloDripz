@@ -18,11 +18,12 @@
 {% block javascripts %}
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+    
         const stripe = Stripe("pk_test_51MFECYHrM30pp7v5SAINk3T807tHh38N2OeEphPJ7ICrJoqmxFRKhkANgCzeEfQ35joSze8WZfSN3HwSo55q2ZcZ00B0r5ZQ51");
 
 
 // The items the customer wants to buy
-const items = [{ id: "xl-tshirt" }];
+const items = [{ totalPrice: {{subTotalToCheckout}} }];
 
 let elements;
 
@@ -35,7 +36,7 @@ document
 
 // Fetches a payment intent and captures the client secret
 async function initialize() {
-  const { clientSecret } = await fetch("/product/checkout/7", {
+  const { clientSecret } = await fetch("/product/checkout/{{app.user.id}}", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ items }),

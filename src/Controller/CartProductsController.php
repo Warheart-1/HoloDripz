@@ -72,8 +72,19 @@ class CartProductsController extends AbstractController
     public function showCart(User $user){
         $cart = $user->getCart();
         $cartProducts = $cart->getCartProducts()->toArray();
+        if(empty($cartProducts)){
+            return $this->render('content/cart/show.html.twig', [
+                'cartProducts' => $cartProducts,
+                'subTotal' => 0,
+            ]);
+        }
+        foreach($cartProducts as $cartProduct){
+            $TotalPrice[] = $cartProduct->getProduct()->getPrice() * $cartProduct->getQuantity();
+        }
+        $subTotal = array_sum($TotalPrice);
         return $this->render('content/cart/show.html.twig', [
             'cartProducts' => $cartProducts,
+            'subTotal' => $subTotal,
         ]);
     }
 
@@ -84,10 +95,20 @@ class CartProductsController extends AbstractController
         $cartProduct = $cartProductsRepository->findByIdProduct($quantiy['id']);
         $cartProduct->setQuantity($quantiy['quantity']);
         $cartProductsRepository->save($cartProduct, true);
+        $quantity['totalPrice'] = $cartProduct->getProduct()->getPrice() * $quantiy['quantity'];
+
+        foreach($cartProduct->getCart()->getCartProducts()->toArray() as $cartProduct){
+            $TotalPrice[] = $cartProduct->getProduct()->getPrice() * $cartProduct->getQuantity();
+        }
+        $quantity['subTotal'] = array_sum($TotalPrice);
 
         return new JsonResponse([
             'message' => 'success',
             'code' => 200,
+            'id' => $quantiy['id'],
+            'quantity' => $quantiy['quantity'],
+            'totalPrice' => $quantity['totalPrice'],
+            'subTotal' => $quantity['subTotal'],
         ], 200);
     }
 
@@ -96,11 +117,20 @@ class CartProductsController extends AbstractController
         $postRequest = $request->getContent();
         $quantiy = json_decode($postRequest, true);
         $cartProduct = $cartProductsRepository->findByIdProduct($quantiy['id']);
+        $quantity['id'] = $cartProduct->getId();
         $cartProductsRepository->remove($cartProduct, true);
+
+        foreach($cartProduct->getCart()->getCartProducts()->toArray() as $cartProduct){
+            $TotalPrice[] = $cartProduct->getProduct()->getPrice() * $cartProduct->getQuantity();
+        }
+        $quantity['subTotal'] = array_sum($TotalPrice);
 
         return new JsonResponse([
             'message' => 'success',
             'code' => 200,
+            'id' => $quantiy['id'],
+            'subTotal' => $quantity['subTotal'],
+            'id' => $quantity['id'],
         ], 200);
     }
 }
