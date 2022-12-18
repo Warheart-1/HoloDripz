@@ -41,6 +41,14 @@ class ContentController extends AbstractController
             'products' => $productRepository->findAll(),
         ]);
     }
+
+    #[Route('/product/show/{userID}', name: 'app_show_product_user', methods: ['GET'])]
+    public function showProductByUser(ProductRepository $productRepository, $userID): Response
+    { 
+        return $this->render('content/product/index.html.twig', [
+            'products' => $productRepository->findBy(['seller' => $userID]),
+        ]);
+    }
     
     #[Route('/product/{id}', name: 'app_product_show', methods: ['GET'])]
     public function showProduct(Request $request, Product $product, CartProductsRepository $cartProductsRepository): Response

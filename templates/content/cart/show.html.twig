@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
 {% if cartProducts is empty %}
     <div class=" text-gray-600 text-xl ml-16 mt-8">   
         <h1>Your cart is empty</h1>
@@ -14,7 +15,7 @@
 
 {% for cartProduct in cartProducts %}
 
-<div data-idProduct="{{ cartProduct.id }}" class=" grid ">
+<div data-idProduct="{{ cartProduct.id }}" class="grid ">
     <h1 class=" text-center">
         Name : {{ cartProduct.product.name }}
     </h1> 
@@ -42,6 +43,10 @@
         <a href=" {{ path("app_checkout") }} ">Checkout</a>
     </div>
 {% endif %}
+
+<div class=" text-gray-600 text-xl ml-16 mt-8">
+    <a href=" {{ path("app_home") }} ">Back to home</a>
+</div>
 
 
 {% block javascript %}
