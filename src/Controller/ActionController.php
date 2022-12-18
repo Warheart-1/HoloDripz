@@ -57,6 +57,11 @@ class ActionController extends AbstractController
     #[Route('product/update/{id}', name: 'app_update_product', methods: ['GET', 'POST'])]
     public function updateProduct(Request $request, Product $product, ProductRepository $productRepository): Response
     {
+        if($product->getSeller() !== $this->getUser())
+        {
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+        $product->setUpdatedAt(new \DateTimeImmutable());
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -75,6 +80,11 @@ class ActionController extends AbstractController
     #[Route('product/delete/{id}', name: 'app_delete_product', methods: ['POST'])]
     public function deleteProduct(Request $request, Product $product, ProductRepository $productRepository): Response
     {
+        if($product->getSeller() !== $this->getUser())
+        {
+            return $this->redirectToRoute('app_index_product', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $productRepository->remove($product, true);
         }
